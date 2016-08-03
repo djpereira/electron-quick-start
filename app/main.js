@@ -1,3 +1,5 @@
+const path = require('path');
+const spawn = require('child_process').spawn;
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
@@ -8,9 +10,39 @@ const BrowserWindow = electron.BrowserWindow
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
+function run(args, done) {
+  var updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
+  console.log('Spawning `%s` with args `%s`', updateExe, args);
+  spawn(updateExe, args, {
+    detached: true
+  }).on('close', done);
+};
+
+function check() {
+  if (process.platform === 'win32') {
+    var cmd = process.argv[1];
+    console.log('processing squirrel command `%s`', cmd);
+    var target = path.basename(process.execPath);
+
+    if (cmd === '--squirrel-install' || cmd === '--squirrel-updated') {
+      run(['--createShortcut=' + target + ''], app.quit);
+      return true;
+    }
+    if (cmd === '--squirrel-uninstall') {
+      run(['--removeShortcut=' + target + ''], app.quit);
+      return true;
+    }
+    if (cmd === '--squirrel-obsolete') {
+      app.quit();
+      return true;
+    }
+  }
+  return false;
+};
+
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`)
@@ -30,7 +62,11 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', ()=> { 
+  if(check())
+    return; 
+  createWindow(); 
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {

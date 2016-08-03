@@ -1,17 +1,9 @@
 {
   "name": "electron-quick-start",
+  "productName": "Electron Quick Start",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
-  "scripts": {
-    "pack": "build --dir",
-    "dist": "build",
-    "start": "electron app/main.js"
-  },
-  "build": {
-    "appId": "electron.quick.start",
-    "app-category-type": "public.app-category.social-networking"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/electron/electron-quick-start.git"
@@ -23,12 +15,9 @@
     "tutorial"
   ],
   "author": "GitHub",
+  "license": "CC0-1.0",
   "bugs": {
     "url": "https://github.com/electron/electron-quick-start/issues"
   },
-  "homepage": "https://github.com/electron/electron-quick-start#readme",
-  "devDependencies": {
-    "electron-builder": "^5.22.1",
-    "electron-prebuilt": "^1.2.0"
-  }
+  "homepage": "https://github.com/electron/electron-quick-start#readme"
 }
