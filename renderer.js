@@ -15,7 +15,11 @@ function displaySources() {
   electron.desktopCapturer.getSources(desktopCapturerOptions, (error, sources) => {
     if (error)
       throw error;
-    sourcesDiv.innerHTML += sources.map(s => s.name).join(', ') + '<br />';
+    let content = '';
+    sources.forEach(source => {
+      content += `<div style='display: flex; flex-direction: column'><img src=${source.thumbnail.toDataURL()} /><div style='text-align: center'>${source.name}</div></div>`
+    });
+    sourcesDiv.innerHTML = content;
     setTimeout(displaySources, 1000);
   });
 }
