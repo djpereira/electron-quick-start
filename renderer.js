@@ -20,8 +20,8 @@ function displaySources() {
       content += `<div style='display: flex; flex-direction: column'><img src=${source.thumbnail.toDataURL()} /><div style='text-align: center'>${source.name}</div></div>`
     });
     sourcesDiv.innerHTML = content;
-    setTimeout(displaySources, 1000);
+    setTimeout(displaySources, 250);
   });
 }
 
-setTimeout(displaySources, 1000);
+setTimeout(displaySources, 250);
